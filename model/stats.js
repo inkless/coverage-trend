@@ -2,7 +2,7 @@ const db = require('../db');
 
 exports.getByBranch = function getByBranch(category, branch) {
   return new Promise((resolve, reject) => {
-    db.query('SELECT * FROM coverage_stats WHERE category = $1 AND branch = $2 ORDER BY created_at DESC LIMIT 100',
+    db.query('SELECT * FROM coverage_stats WHERE category = $1 AND branch = $2 ORDER BY created_at DESC LIMIT 20',
       [category, branch], (err, result) => {
         if (err) {
           return reject(err);
