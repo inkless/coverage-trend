@@ -27,6 +27,10 @@ exports.getLatestByBranch = function getLatestByBranch(category, branch) {
 };
 
 exports.add = function add(category, branch, baseBranch, stats) {
+  if (!category || !branch || !baseBranch || !stats || typeof stats !== 'object') {
+    return Promise.reject('invalid data');
+  }
+
   stats = formatStats(stats);
   if (!isStatsValid(stats)) {
     return Promise.reject('invalid stats');
