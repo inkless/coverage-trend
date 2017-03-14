@@ -24,7 +24,7 @@
     data.labels.push(moment(item.created_at).format('M/D HH:mm'));
 
     types.forEach((type, index) => {
-      data.datasets[index].data.push(parseInt(JSON.parse(item.stats)[type]));
+      data.datasets[index].data.push(parseFloat(JSON.parse(item.stats)[type]));
     });
   });
 
@@ -32,7 +32,23 @@
   new Chart(ctx, {
     type: 'line',
     data: data,
-    options: {}
+    options: {
+      scales: {
+        yAxes: [{
+          ticks: {
+            min: 0,
+            max: 100,
+            callback: function(value) {
+              return value + '%';
+            }
+          },
+          scaleLabel: {
+            display: true,
+            labelString: 'Percentage'
+          }
+        }]
+      }
+    }
   });
 
 })();
