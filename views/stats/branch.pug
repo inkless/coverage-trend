@@ -1,0 +1,16 @@
+extends ../layout
+
+block content
+  h1= `Category: ${category} Branch: ${branch}`
+  a(href='/stats/'+category) Back
+  h3= `Base branch ${baseBranch} coverage`
+  p
+    each val, type in baseData
+      span= `${type}: ${val}; `
+
+  h3= `Branch ${branch} coverage`
+  canvas#chart(width=600 height=400)
+  script(type='text/javascript' src='/javascripts/vendor/moment.min.js')
+  script(type='text/javascript' src='/javascripts/vendor/Chart.min.js')
+  script(type='text/javascript')!= `window.branchData = ${JSON.stringify(data)};`
+  script(type='text/javascript' src='/javascripts/app.js')

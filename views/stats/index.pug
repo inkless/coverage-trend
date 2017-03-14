@@ -1,0 +1,8 @@
+extends ../layout
+
+block content
+  h1= 'Category: '+category
+  ul
+    each br in branches
+      li
+        a(href='/stats/'+category+'/'+encodeURIComponent(br))= br
