@@ -33,12 +33,18 @@ router.get('/:category/:branch', (req, res) => {
       return Stats.getLatestByBranch(category, ret[ret.length - 1].base_branch);
     })
     .then(ret => {
+      let baseBranch;
+      let baseData = {};
+      if (ret && ret.stats) {
+        baseBranch = ret.branch;
+        baseData = JSON.parse(ret.stats);
+      }
       res.render('stats/branch', {
         category,
         branch,
-        baseBranch: ret.branch,
+        baseBranch,
         data,
-        baseData: JSON.parse(ret.stats),
+        baseData,
       });
     })
     .catch(err => {
