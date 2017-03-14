@@ -27,6 +27,7 @@ exports.getLatestByBranch = function getLatestByBranch(category, branch) {
 };
 
 exports.add = function add(category, branch, baseBranch, stats) {
+  stats = formatStats(stats);
   if (!isStatsValid(stats)) {
     return Promise.reject('invalid stats');
   }
@@ -79,4 +80,15 @@ function isStatsValid(stats) {
   }
 
   return false;
+}
+
+function formatStats(stats) {
+  for (let i in stats) {
+    stats[i.toLowerCase()] = stats[i];
+    if (i !== i.toLowerCase()) {
+      delete stats[i];
+    }
+  }
+
+  return stats;
 }
