@@ -16,7 +16,7 @@ module.exports = function send(commit, category, branch, result) {
     state: result.isCovUp ? 'success' : 'failure',
     target_url: `https://coverage-trend.herokuapp.com/stats/${category}/${encodeURIComponent(branch)}`,
     description: `Statements: ${result.data.statements}, Branches: ${result.data.branches}`,
-    context: `${category} coverage`,
+    context: `Cov Diff - ${category}`,
   };
 
   request({

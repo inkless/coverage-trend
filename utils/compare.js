@@ -31,17 +31,17 @@ module.exports = function compareStats(after, before) {
   let isCovUp = true;
   const data = {
     statements: `${after.statements}% (${after.statements - before.statements}% ${UP})`,
-    branches: `${after.branches}% (${after.branches - before.branches}% ${UP})`,
+    branches: `${after.branches}% (${(after.branches - before.branches).toFixed(2)}% ${UP})`,
   };
 
   if (after.statements < before.statements)  {
     isCovUp = false;
-    data.statements = `${after.statements}% (${before.statements - after.statements}% ${DOWN})`;
+    data.statements = `${after.statements}% (${(before.statements - after.statements).toFixed(2)}% ${DOWN})`;
   }
 
   if (after.branches < before.branches) {
     isCovUp = false;
-    data.branches = `${after.branches}% (${before.branches - after.branches}% ${DOWN})`;
+    data.branches = `${after.branches}% (${(before.branches - after.branches).toFixed(2)}% ${DOWN})`;
   }
 
   return {
