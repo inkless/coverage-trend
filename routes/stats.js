@@ -73,7 +73,9 @@ router.post('/:category', (req, res) => {
         category,
         req.body.branch,
         req.body.baseBranch,
-        req.body.stats);
+        req.body.stats,
+        req.body.coverageUrl
+      );
     })
     .then(() => {
       const result = compareStats(req.body.stats, compareBranchStats);

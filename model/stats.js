@@ -26,7 +26,7 @@ exports.getLatestByBranch = function getLatestByBranch(category, branch) {
   });
 };
 
-exports.add = function add(category, branch, baseBranch, stats) {
+exports.add = function add(category, branch, baseBranch, stats, coverageUrl = '') {
   if (!category || !branch || !baseBranch || !stats || typeof stats !== 'object') {
     return Promise.reject('invalid data');
   }
@@ -39,9 +39,9 @@ exports.add = function add(category, branch, baseBranch, stats) {
   return new Promise((resolve, reject) => {
     db.query(
       `INSERT INTO coverage_stats (
-        branch, base_branch, stats, category
-      ) VALUES ($1, $2, $3, $4)`,
-      [ branch, baseBranch, stats, category ],
+        branch, base_branch, stats, category, coverage_url
+      ) VALUES ($1, $2, $3, $4, $5)`,
+      [ branch, baseBranch, stats, category, coverageUrl ],
       (err, result) => {
         if (err) {
           return reject(err);
