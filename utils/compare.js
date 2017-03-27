@@ -30,7 +30,7 @@ module.exports = function compareStats(after, before) {
 
   let isCovUp = true;
   const data = {
-    statements: `${after.statements}% (${after.statements - before.statements}% ${UP})`,
+    statements: `${after.statements}% (${(after.statements - before.statements).toFixed(2)}% ${UP})`,
     branches: `${after.branches}% (${(after.branches - before.branches).toFixed(2)}% ${UP})`,
   };
 
