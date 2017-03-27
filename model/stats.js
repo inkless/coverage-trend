@@ -15,7 +15,7 @@ exports.getByBranch = function getByBranch(category, branch) {
 
 exports.getLatestByBranch = function getLatestByBranch(category, branch) {
   return new Promise((resolve, reject) => {
-    db.query('SELECT * FROM coverage_stats WHERE category = $1 AND branch = $2 ORDER BY created_at LIMIT 1',
+    db.query('SELECT * FROM coverage_stats WHERE category = $1 AND branch = $2 ORDER BY created_at DESC LIMIT 1',
       [category, branch], (err, result) => {
         if (err) {
           return reject(err);
@@ -77,6 +77,8 @@ exports.getAllBranches = function getAllBranches(category) {
       });
   });
 };
+
+exports.formatStats = formatStats;
 
 function isStatsValid(stats) {
   if (stats.statements && stats.branches && stats.functions && stats.lines) {

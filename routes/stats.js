@@ -1,6 +1,8 @@
 const express = require('express');
-const Stats = require('../model/stats');
 const debug = require('debug')('server');
+const Stats = require('../model/stats');
+const compareStats = require('../utils/compare');
+const sendGithub = require('../utils/send_github');
 
 const router = express.Router();
 
@@ -54,13 +56,31 @@ router.get('/:category/:branch', (req, res) => {
 });
 
 router.post('/:category', (req, res) => {
-  Stats.add(
-    req.params.category,
-    req.body.branch,
-    req.body.baseBranch,
-    req.body.stats).then((ret) => {
-      res.send(ret);
-    }).catch((err) => {
+  const category = req.params.category;
+  let compareBranchStats = null;
+  Stats.getLatestByBranch(category, req.body.baseBranch)
+    .then(ret => {
+      if (!ret) {
+        return Stats.getLatestByBranch(category, req.body.branch);
+      }
+      return ret;
+    })
+    .then(ret => {
+      if (ret && ret.stats) {
+        compareBranchStats = JSON.parse(ret.stats);
+      }
+      return Stats.add(
+        category,
+        req.body.branch,
+        req.body.baseBranch,
+        req.body.stats);
+    })
+    .then(() => {
+      const result = compareStats(req.body.stats, compareBranchStats);
+      res.send(result);
+      sendGithub(req.body.commit, category, req.body.branch, result);
+    })
+    .catch((err) => {
       debug(err);
       res.send(500, err);
     });
