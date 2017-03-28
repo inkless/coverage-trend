@@ -37,9 +37,13 @@ router.get('/:category/:branch', (req, res) => {
     .then(ret => {
       let baseBranch;
       let baseData = {};
+      let coverageUrl;
       if (ret && ret.stats) {
         baseBranch = ret.branch;
         baseData = JSON.parse(ret.stats);
+      }
+      if (data && data.length) {
+        coverageUrl = data[data.length - 1].coverage_url;
       }
       res.render('stats/branch', {
         category,
@@ -47,6 +51,7 @@ router.get('/:category/:branch', (req, res) => {
         baseBranch,
         data,
         baseData,
+        coverageUrl,
       });
     })
     .catch(err => {

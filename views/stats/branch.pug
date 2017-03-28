@@ -3,6 +3,10 @@ extends ../layout
 block content
   h1= `Category: ${category} Branch: ${branch}`
   a(href='/stats/'+category) Back
+  if coverageUrl
+    h3 Latest Coverage Report:
+    a(href=coverageUrl target="_blank")= coverageUrl
+
   if baseBranch
     h3= `Base branch ${baseBranch} coverage`
     p
