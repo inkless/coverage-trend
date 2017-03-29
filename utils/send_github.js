@@ -32,7 +32,11 @@ module.exports = function send(commit, category, branch, result) {
     },
     body: JSON.stringify(body),
   }, function (error, resp) {
-    console.log(error, resp);
+    if (error) {
+      console.log(error);
+    } else {
+      console.log(resp.body);
+    }
   });
 
 };

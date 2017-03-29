@@ -3,6 +3,7 @@ const debug = require('debug')('server');
 const Stats = require('../model/stats');
 const compareStats = require('../utils/compare');
 const sendGithub = require('../utils/send_github');
+const auth = require('../utils/auth');
 
 const router = express.Router();
 
@@ -60,7 +61,7 @@ router.get('/:category/:branch', (req, res) => {
     });
 });
 
-router.post('/:category', (req, res) => {
+router.post('/:category', auth, (req, res) => {
   const category = req.params.category;
   let compareBranchStats = null;
   Stats.getLatestByBranch(category, req.body.baseBranch)
